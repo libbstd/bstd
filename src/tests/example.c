@@ -32,7 +32,7 @@ int main() {
 	
 	String_concat(a, b);
 	
-	//println(a);
+	println(a);
 	
 	return 0;
 }
