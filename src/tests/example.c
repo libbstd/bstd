@@ -31,6 +31,8 @@ int main() {
 	// Test it!
 	
 	String_concat(a, b);
+
+	String_free(b);
 	
 	println(a);
 	
