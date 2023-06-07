@@ -1,4 +1,4 @@
-/* bstd - src/tests/example.c
+/* bstd - src/example/main.c
 
 Copyright (c) 2023 hexaheximal
 

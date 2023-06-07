@@ -21,15 +21,33 @@
 # SOFTWARE.
 
 CC=gcc
-all: bin/example
+
+SRC=$(wildcard src/*.c)
+OBJ=$(SRC:src/%.c=bin/%.o)
+
+EXAMPLE_SRC=$(wildcard src/example/*.c)
+EXAMPLE_OBJ=$(EXAMPLE_SRC:src/example/%.c=bin/%.o)
+
+CFLAGS=-Wall -Werror -ggdb -Iinclude
+all: bin/libbstd.so
 
 bin:
 	mkdir bin
 
-bin/example: bin include/bstd.h src/string.c src/tests/example.c
-	# -ggdb is enabled because otherwise valgrind won't show which source line a memory error is on
+$(OBJ): $(SRC)
+	gcc -fpic $(CFLAGS) $(LIBS) -o $@ -c $^
 
-	$(CC) -ggdb -Iinclude src/string.c src/tests/example.c -o bin/example
+bin/libbstd.so: $(OBJ)
+	$(CC) -shared -o bin/libbstd.so $(OBJ)
+
+$(EXAMPLE_OBJ): $(EXAMPLE_SRC)
+	gcc -c $^ -Lbin -lbstd $(CFLAGS) $(LIBS) -o $@
+
+bin/example: $(EXAMPLE_OBJ) bin/libbstd.so include/bstd.h
+	$(CC) $(EXAMPLE_OBJ) -Lbin -lbstd $(LIBS) -o bin/example
+
+test: bin/example
+	LD_LIBRARY_PATH=bin ./bin/example
 
 clean:
-	rm bin/example
+	rm bin/*

@@ -46,31 +46,31 @@ typedef struct {
 
 // Creates a string
 
-String* String_new(size_t length);
+extern String* String_new(size_t length);
 
 // Creates a new string from a C string
 // NOTE: This creates a copy of the original cstr data, you will need to call free() later to remove the original C string from memory
 
-String* String_fromcstr(char* cstr);
+extern String* String_fromcstr(char* cstr);
 
 // Resize a string, returns true if it succeeds
 
-bool String_resize(String* str, size_t new_length);
+extern bool String_resize(String* str, size_t new_length);
 
 // Concatenate a string to the end of another string, returns true if it succeeds
 
-bool String_concat(String* to, String* from);
+extern bool String_concat(String* to, String* from);
 
 // Prints a string
 
-void print(String* str);
+extern void print(String* str);
 
 // print(), but with an extra newline
 
-void println(String* str);
+extern void println(String* str);
 
 // A safe string-specific wrapper for free()
 
-void String_free(String* str);
+extern void String_free(String* str);
 
 #endif
