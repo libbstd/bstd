@@ -25,9 +25,6 @@ SOFTWARE. */
 // Creates a string
 
 String* String_new(size_t length) {
-	// For some reason, valgrind says that this is a memory leak
-	// It's not; we return the pointer later to get it into the outer scope
-
 	String* str = malloc(sizeof(String));
 
 	if (str == NULL) {

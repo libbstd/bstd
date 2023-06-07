@@ -35,6 +35,8 @@ int main() {
 	String_free(b);
 	
 	println(a);
+
+	String_free(a);
 	
 	return 0;
 }
