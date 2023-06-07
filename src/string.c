@@ -25,14 +25,16 @@ SOFTWARE. */
 // Creates a string
 
 String* String_new(size_t length) {
-	size_t byte_length = sizeof(char) * length;
-	
-	String* str = malloc(byte_length);
+	String* str = malloc(sizeof(String));
+
+	if (str == NULL) {
+		return NULL;
+	}
 
 	// Set the initial length
 	
 	str->length = length;
-	str->buffer_length = byte_length + sizeof(char); // We need the buffer to have one more character so we can null terminate it for compatibility with C strings
+	str->buffer_length = (length + 1) * sizeof(char); // We need the buffer to have one more character so we can null terminate it for compatibility with C strings
 	
 	str->data = malloc(str->buffer_length);
 	
