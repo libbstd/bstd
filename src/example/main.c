@@ -30,7 +30,10 @@ int main() {
 	
 	// Test it!
 	
-	String_concat(a, b);
+	if (!String_concat(a, b)) {
+		puts("String_concat() failed!");
+		return 1;
+	}
 
 	String_free(b);
 	

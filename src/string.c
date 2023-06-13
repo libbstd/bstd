@@ -114,8 +114,10 @@ bool String_concat(String* to, String* from) {
 	size_t original_length = to->length;
 	
 	// Resize the target string
-	
-	String_resize(to, original_length + from->length);
+
+	if (!String_resize(to, original_length + from->length)) {
+		return false;
+	}
 	
 	// Copy the data
 	
@@ -141,7 +143,6 @@ void print(String* str) {
 	
 	for (i = 0; i < str->length; i++) {
 		putchar(str->data[i]);
-		//printf("%c", str->data[i]);
 	}
 }
 
@@ -150,16 +151,22 @@ void print(String* str) {
 void println(String* str) {
 	print(str);
 	putchar('\n');
-	//printf("\n");
 }
 
 // A safe string-specific wrapper for free()
 
 void String_free(String* str) {
+	// We don't want to do a double-free.
+
 	if (str == NULL) {
 		return;
 	}
 
+	// First, we need to free the string data before we can free the string itself
+
 	free(str->data);
+
+	// But once the data has been freed, it's safe to free the string
+	
 	free(str);
 }
