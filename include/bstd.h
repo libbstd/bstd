@@ -34,6 +34,9 @@ SOFTWARE. */
 #include <stddef.h>
 #include <stdbool.h>
 
+#define null NULL
+#define nil NULL
+
 //
 // Strings
 //
