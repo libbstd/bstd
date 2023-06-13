@@ -20,6 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+
+.PHONY: all
+
 CC=gcc
 
 SRC=$(wildcard src/*.c)
@@ -31,10 +34,8 @@ EXAMPLE_OBJ=$(EXAMPLE_SRC:src/example/%.c=bin/%.o)
 CFLAGS=-Wall -Werror -ggdb -Iinclude
 all: bin/libbstd.so
 
-bin:
-	mkdir bin
-
 $(OBJ): $(SRC)
+	if [ ! -d bin ]; then mkdir bin; fi
 	gcc -fpic $(CFLAGS) $(LIBS) -o $@ -c $^
 
 bin/libbstd.so: $(OBJ)
@@ -43,7 +44,7 @@ bin/libbstd.so: $(OBJ)
 $(EXAMPLE_OBJ): $(EXAMPLE_SRC)
 	gcc -c $^ -Lbin -lbstd $(CFLAGS) $(LIBS) -o $@
 
-bin/example: $(EXAMPLE_OBJ) bin/libbstd.so include/bstd.h
+bin/example: bin/libbstd.so include/bstd.h $(EXAMPLE_OBJ)
 	$(CC) $(EXAMPLE_OBJ) -Lbin -lbstd $(LIBS) -o bin/example
 
 test: bin/example
